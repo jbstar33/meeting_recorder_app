@@ -18,7 +18,7 @@ class VoiceNoteApp extends StatelessWidget {
     return AppScope(
       controller: controller,
       child: MaterialApp(
-        title: 'VoiceNote AI',
+        title: 'Meeting Recorder App',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),

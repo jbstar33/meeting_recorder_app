@@ -97,7 +97,7 @@ class _DashboardTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'VoiceNote AI',
+                  'Meeting Recorder App',
                   style: theme.textTheme.titleLarge?.copyWith(
                     color: AppColors.primaryDark,
                   ),

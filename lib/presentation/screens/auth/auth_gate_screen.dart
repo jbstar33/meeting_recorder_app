@@ -149,7 +149,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Unlock VoiceNote AI', style: theme.textTheme.headlineMedium),
+                  Text('Unlock Meeting Recorder App', style: theme.textTheme.headlineMedium),
                   const SizedBox(height: 12),
                   Text(
                     'Enter your 4-digit PIN to access recordings and transcripts.',

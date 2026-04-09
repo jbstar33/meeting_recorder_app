@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:voicenote_ai/app.dart';
-import 'package:voicenote_ai/app_state/app_controller.dart';
-import 'package:voicenote_ai/data/models/session_state.dart';
-import 'package:voicenote_ai/services/recording/audio_recorder_service.dart';
-import 'package:voicenote_ai/services/security/pin_service.dart';
-import 'package:voicenote_ai/services/storage/recordings_store.dart';
+import 'package:meeting_recorder_app/app.dart';
+import 'package:meeting_recorder_app/app_state/app_controller.dart';
+import 'package:meeting_recorder_app/data/models/session_state.dart';
+import 'package:meeting_recorder_app/services/recording/audio_recorder_service.dart';
+import 'package:meeting_recorder_app/services/security/pin_service.dart';
+import 'package:meeting_recorder_app/services/storage/recordings_store.dart';
 
 void main() {
   testWidgets('renders the unlocked app shell', (WidgetTester tester) async {
@@ -19,6 +19,6 @@ void main() {
     await tester.pumpWidget(VoiceNoteApp(controller: controller));
     await tester.pumpAndSettle();
 
-    expect(find.text('VoiceNote AI'), findsOneWidget);
+    expect(find.text('Meeting Recorder App'), findsOneWidget);
   });
 }

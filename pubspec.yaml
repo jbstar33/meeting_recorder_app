@@ -1,4 +1,4 @@
-name: voicenote_ai
+name: meeting_recorder_app
 description: Privacy-first meeting recorder MVP for local-first meeting capture, transcript editing, and export.
 publish_to: "none"
 version: 0.1.0+1

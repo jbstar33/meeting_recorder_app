@@ -162,7 +162,7 @@ Important rule:
 Use this as the starting scaffold:
 
 ```text
-voicenote_ai/
+meeting_recorder_app/
   lib/
     app.dart
     main.dart
@@ -374,7 +374,7 @@ When generating the actual Flutter app, keep these constraints:
 
 Use this when starting actual app creation:
 
-> Create a Flutter Android-first app named `voicenote_ai` for privacy-first meeting recording. Use Riverpod, GoRouter, Isar, flutter_secure_storage, record, just_audio, permission_handler, share_plus, and flutter_local_notifications. Implement a polished soft-blue design system, first-launch PIN setup, unlock screen, home screen with recording list, recording screen with start/pause/resume/stop, local metadata persistence, settings screen, and transcript detail screen with placeholder transcript data. Structure the code with presentation/data/services/router/core layers and keep STT/analysis behind interfaces so whisper.cpp and llama.cpp can be integrated later.
+> Create a Flutter Android-first app named `meeting_recorder_app` for privacy-first meeting recording. Use Riverpod, GoRouter, Isar, flutter_secure_storage, record, just_audio, permission_handler, share_plus, and flutter_local_notifications. Implement a polished soft-blue design system, first-launch PIN setup, unlock screen, home screen with recording list, recording screen with start/pause/resume/stop, local metadata persistence, settings screen, and transcript detail screen with placeholder transcript data. Structure the code with presentation/data/services/router/core layers and keep STT/analysis behind interfaces so whisper.cpp and llama.cpp can be integrated later.
 
 ---
 
