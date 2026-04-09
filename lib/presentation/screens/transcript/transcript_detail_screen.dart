@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../app_state/app_scope.dart';
 import '../../../core/theme/app_colors.dart';
@@ -105,6 +106,30 @@ class TranscriptDetailScreen extends StatelessWidget {
                             },
                             icon: const Icon(Icons.delete_outline),
                             label: const Text('Delete'),
+                          ),
+                          FilledButton.icon(
+                            onPressed: () async {
+                              await Clipboard.setData(ClipboardData(text: _buildMarkdownPreview(item, recording)));
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Transcript markdown copied to clipboard.')),
+                                );
+                              }
+                            },
+                            icon: const Icon(Icons.copy),
+                            label: const Text('Copy Markdown'),
+                          ),
+                          FilledButton.tonalIcon(
+                            onPressed: () async {
+                              final String? path = await controller.exportTranscript(item.id);
+                              if (context.mounted && path != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Exported to $path')),
+                                );
+                              }
+                            },
+                            icon: const Icon(Icons.download_outlined),
+                            label: const Text('Export Markdown'),
                           ),
                         ],
                       ),
@@ -229,6 +254,39 @@ class TranscriptDetailScreen extends StatelessWidget {
       },
     );
     return result ?? false;
+  }
+
+  String _buildMarkdownPreview(TranscriptItem transcript, RecordingItem? recording) {
+    final StringBuffer buffer = StringBuffer()
+      ..writeln('# ${transcript.title}')
+      ..writeln()
+      ..writeln('- Created: ${formatDateTime(transcript.createdAt)}')
+      ..writeln('- Updated: ${formatDateTime(transcript.updatedAt)}')
+      ..writeln('- Language: ${transcript.language.toUpperCase()}')
+      ..writeln('- Segments: ${transcript.segments.length}');
+
+    if (recording != null) {
+      buffer
+        ..writeln('- Recording file: ${recording.filePath}')
+        ..writeln('- Recording duration: ${formatDuration(recording.durationSeconds)}');
+    }
+
+    if ((transcript.summary ?? '').trim().isNotEmpty) {
+      buffer
+        ..writeln()
+        ..writeln('## Summary')
+        ..writeln(transcript.summary!.trim());
+    }
+
+    buffer.writeln();
+    buffer.writeln('## Transcript');
+    for (final TranscriptSegment segment in transcript.segments) {
+      buffer
+        ..writeln()
+        ..writeln('### ${segment.speaker} · ${formatRange(segment.startSeconds, segment.endSeconds)}')
+        ..writeln(segment.text.trim());
+    }
+    return buffer.toString();
   }
 }
 

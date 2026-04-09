@@ -7,6 +7,7 @@ import '../data/models/recording_item.dart';
 import '../data/models/transcript_item.dart';
 import '../data/models/session_state.dart';
 import '../services/recording/audio_recorder_service.dart';
+import '../services/export/transcript_export_service.dart';
 import '../services/security/pin_service.dart';
 import '../services/storage/recordings_store.dart';
 import '../services/storage/transcripts_store.dart';
@@ -16,15 +17,18 @@ class AppController extends ChangeNotifier {
     required PinService pinService,
     required RecordingsStore recordingsStore,
     required TranscriptsStore transcriptsStore,
+    required TranscriptExportService exportService,
     required AudioRecorderService recorderService,
   })  : _pinService = pinService,
         _recordingsStore = recordingsStore,
         _transcriptsStore = transcriptsStore,
+        _exportService = exportService,
         _recorderService = recorderService;
 
   final PinService _pinService;
   final RecordingsStore _recordingsStore;
   final TranscriptsStore _transcriptsStore;
+  final TranscriptExportService _exportService;
   final AudioRecorderService _recorderService;
 
   AuthState authState = AuthState.loading;
@@ -135,6 +139,16 @@ class AppController extends ChangeNotifier {
     }
     await _transcriptsStore.saveTranscripts(transcripts);
     notifyListeners();
+  }
+
+  Future<String?> exportTranscript(String transcriptId) async {
+    final TranscriptItem? transcript = _transcriptForId(transcriptId);
+    if (transcript == null) {
+      return null;
+    }
+
+    final RecordingItem? recording = _recordingForId(transcript.recordingId);
+    return _exportService.exportMarkdown(transcript, recording: recording);
   }
 
   Future<bool> startRecording() async {
