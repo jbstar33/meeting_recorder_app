@@ -23,3 +23,7 @@ After installing Flutter:
 flutter pub get
 flutter run
 ```
+
+## Branching
+
+See [docs/branching_strategy.md](docs/branching_strategy.md) for the branch and PR workflow used in this repository.

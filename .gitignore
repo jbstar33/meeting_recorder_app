@@ -36,6 +36,7 @@ migrate_working_dir/
 .localappdata/
 AI_rules/logs/*
 !AI_rules/logs/.gitkeep
+android/local.properties
 
 # Symbolication related
 app.*.symbols
