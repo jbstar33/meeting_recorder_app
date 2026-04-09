@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Session Log Event",
+  "type": "object",
+  "required": [
+    "timestamp",
+    "session_id",
+    "event_type",
+    "actor",
+    "content"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "parent_task_id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "user_prompt",
+        "system_prompt",
+        "agent_prompt",
+        "agent_output",
+        "handoff",
+        "tool_action",
+        "decision",
+        "validation",
+        "final_response",
+        "error"
+      ]
+    },
+    "actor": {
+      "type": "string"
+    },
+    "agent_name": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "input_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

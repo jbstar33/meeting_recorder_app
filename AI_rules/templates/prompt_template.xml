@@ -1,0 +1,14 @@
+<task>
+  <objective></objective>
+  <project_context></project_context>
+  <scope></scope>
+  <constraints>
+    <language_for_user_output>ko</language_for_user_output>
+    <language_for_control_files>en</language_for_control_files>
+    <logging_required>true</logging_required>
+  </constraints>
+  <inputs></inputs>
+  <acceptance_criteria></acceptance_criteria>
+  <forbidden_actions></forbidden_actions>
+  <expected_output_format></expected_output_format>
+</task>

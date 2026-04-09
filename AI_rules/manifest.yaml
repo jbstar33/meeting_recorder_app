@@ -1,0 +1,31 @@
+name: "Meeting Recorder AI Rules Pack"
+version: "1.0.0"
+default_language: "ko"
+rules_language: "en"
+skills_language: "en"
+agent_settings_language: "en"
+logging_required: true
+logging_format: "jsonl"
+logging_directory: "AI_rules/logs"
+orchestration_mode: "manager"
+main_agent: "main_orchestrator"
+sub_agents:
+  - "requirements_agent"
+  - "architecture_agent"
+  - "implementation_agent"
+  - "review_agent"
+always_apply_rules:
+  - "rules/00_core_behavior.md"
+  - "rules/10_language_policy.md"
+  - "rules/20_logging_policy.md"
+  - "rules/30_orchestration_policy.md"
+  - "rules/40_sdlc_policy.md"
+  - "rules/50_quality_gates.md"
+templates:
+  prompt: "templates/prompt_template.xml"
+  handoff: "templates/handoff_template.md"
+  log_schema: "templates/session_log.schema.json"
+system_prompts:
+  main: "system_prompts/main_orchestrator_system_prompt.md"
+  sub_agent: "system_prompts/sub_agent_handoff_system_prompt.md"
+  combined: "system_prompts/combined_project_instruction.md"
