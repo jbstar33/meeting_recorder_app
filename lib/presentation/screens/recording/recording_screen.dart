@@ -17,7 +17,7 @@ class RecordingScreen extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Recording')),
+      appBar: AppBar(title: const Text('\uB179\uC74C')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         children: <Widget>[
@@ -62,7 +62,7 @@ class RecordingScreen extends StatelessWidget {
                   children: const <Widget>[
                     SpeakerChip(label: '16kHz', index: 0),
                     SpeakerChip(label: 'AAC mono', index: 2),
-                    SpeakerChip(label: 'Local save', index: 3),
+                    SpeakerChip(label: '\uB85C\uCEEC \uC800\uC7A5', index: 3),
                   ],
                 ),
               ],
@@ -79,7 +79,7 @@ class RecordingScreen extends StatelessWidget {
           if (controller.recordingPhase == RecordingPhase.idle)
             _ActionButton(
               icon: Icons.fiber_manual_record_rounded,
-              label: 'Start recording',
+              label: '\uB179\uC74C \uC2DC\uC791',
               fillColor: AppColors.primary,
               textColor: Colors.white,
               onPressed: controller.startRecording,
@@ -92,7 +92,7 @@ class RecordingScreen extends StatelessWidget {
                     icon: controller.recordingPhase == RecordingPhase.paused
                         ? Icons.play_arrow_rounded
                         : Icons.pause_rounded,
-                    label: controller.recordingPhase == RecordingPhase.paused ? 'Resume' : 'Pause',
+                    label: controller.recordingPhase == RecordingPhase.paused ? '\uC7AC\uC0DD' : '\uC77C\uC2DC\uC815\uC9C0',
                     fillColor: AppColors.surface,
                     textColor: AppColors.onSurface,
                     onPressed: controller.recordingPhase == RecordingPhase.paused
@@ -104,7 +104,7 @@ class RecordingScreen extends StatelessWidget {
                 Expanded(
                   child: _ActionButton(
                     icon: Icons.stop_circle_outlined,
-                    label: 'Stop',
+                    label: '\uC885\uB8CC',
                     fillColor: AppColors.error,
                     textColor: Colors.white,
                     onPressed: () async {
@@ -124,14 +124,14 @@ class RecordingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Text(
-                  'Current MVP scope',
+                  '\uD604\uC7AC MVP \uBC94\uC704',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   controller.recordingPhase == RecordingPhase.idle
-                      ? 'Recording is ready. Audio files are stored locally and added to the dashboard once you stop.'
-                      : 'The recorder is writing audio locally right now. After stop, the session is saved to the home list for the next transcript step.',
+                      ? '\uB179\uC74C \uC900\uBE44\uAC00 \uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4. \uC624\uB514\uC624 \uD30C\uC77C\uC740 \uB85C\uCEEC\uC5D0 \uC800\uC7A5\uB418\uACE0 \uC885\uB8CC \uD6C4 \uB300\uC2DC\uBCF4\uB4DC\uC5D0 \uCD94\uAC00\uB429\uB2C8\uB2E4.'
+                      : '\uB179\uC74C\uAE30\uAC00 \uC9C0\uAE08 \uB85C\uCEEC \uC624\uB514\uC624\uB97C \uC800\uC7A5\uD558\uACE0 \uC788\uC2B5\uB2C8\uB2E4. \uC885\uB8CC\uD558\uBA74 \uC138\uC158\uC774 \uB4A4\uC5D0 \uB179\uC74C \uBAA9\uB85D\uC73C\uB85C \uC800\uC7A5\uB429\uB2C8\uB2E4.',
                 ),
                 if (controller.activeRecordingPath != null) ...<Widget>[
                   const SizedBox(height: 10),
@@ -158,13 +158,13 @@ class RecordingScreen extends StatelessWidget {
   String _phaseLabel(RecordingPhase phase) {
     switch (phase) {
       case RecordingPhase.idle:
-        return 'Ready to record';
+        return '\uC900\uBE44\uC644\uB8CC';
       case RecordingPhase.recording:
-        return 'Recording live';
+        return '\uB179\uC74C \uC911';
       case RecordingPhase.paused:
-        return 'Paused';
+        return '\uC77C\uC2DC\uC815\uC9C0';
       case RecordingPhase.stopping:
-        return 'Saving';
+        return '\uC800\uC7A5 \uC911';
     }
   }
 

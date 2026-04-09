@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.onestore.voicenote_ai"
+    namespace = "com.onestore.meeting_recorder_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.onestore.voicenote_ai"
+        applicationId = "com.onestore.meeting_recorder_app"
         minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

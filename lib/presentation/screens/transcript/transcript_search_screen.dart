@@ -33,13 +33,13 @@ class _TranscriptSearchScreenState extends State<TranscriptSearchScreen> {
     if (query.isNotEmpty) {
       for (final TranscriptItem transcript in controller.transcripts) {
         if (_matches(transcript.title, query)) {
-          hits.add(_SearchHit(transcript: transcript, label: 'Title match', excerpt: transcript.title));
+          hits.add(_SearchHit(transcript: transcript, label: '\uC81C\uBAA9 \uB9E4\uCE6D', excerpt: transcript.title));
         }
         if (_matches(transcript.summary ?? '', query)) {
           hits.add(
             _SearchHit(
               transcript: transcript,
-              label: 'Summary match',
+              label: '\uC694\uC57D \uB9E4\uCE6D',
               excerpt: transcript.summary ?? '',
             ),
           );
@@ -59,21 +59,21 @@ class _TranscriptSearchScreenState extends State<TranscriptSearchScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Search')),
+      appBar: AppBar(title: const Text('\uAC80\uC0C9')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         children: <Widget>[
           TextField(
             controller: _queryController,
             decoration: const InputDecoration(
-              labelText: 'Search transcripts',
+              labelText: '\uB179\uC74C \uAC80\uC0C9',
               prefixIcon: Icon(Icons.search),
             ),
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 18),
           Text(
-            query.isEmpty ? 'Type a word to search across titles and transcript text.' : '${hits.length} result(s)',
+            query.isEmpty ? '\uC81C\uBAA9, \uC694\uC57D, \uB0B4\uC6A9 \uC804\uCCB4\uC5D0\uC11C \uB2E8\uC5B4\uB97C \uAC80\uC0C9\uD558\uC138\uC694.' : '${hits.length}\uAC1C \uACB0\uACFC',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 12),
@@ -83,12 +83,12 @@ class _TranscriptSearchScreenState extends State<TranscriptSearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'No matches yet',
+                    '\uC544\uC9C1 \uB9E4\uCE6D\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Search looks through transcript titles and segment text. Try a title fragment or any sentence from a draft.',
+                    '\uAC80\uC0C9\uC740 \uB179\uC74C \uC81C\uBAA9\uACFC \uAD6C\uAC04 \uB0B4\uC6A9\uC744 \uD655\uC778\uD569\uB2C8\uB2E4. \uC81C\uBAA9 \uC77C\uBD80 \uB610\uB294 \uBB38\uC7A5 \uD558\uB098\uB85C \uC2DC\uB3C4\uD574 \uBCF4\uC138\uC694.',
                   ),
                 ],
               ),
@@ -126,7 +126,7 @@ class _TranscriptSearchScreenState extends State<TranscriptSearchScreen> {
                               ],
                             ),
                           ),
-                          const SpeakerChip(label: 'Match', index: 2),
+                          const SpeakerChip(label: '\uB9E4\uCE6D', index: 2),
                         ],
                       ),
                       const SizedBox(height: 16),

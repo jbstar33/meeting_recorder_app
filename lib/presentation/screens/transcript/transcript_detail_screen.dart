@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/recording_item.dart';
 import '../../../data/models/transcript_item.dart';
+import '../../widgets/audio_player_card.dart';
 import '../../widgets/glass_card.dart';
 import '../../widgets/speaker_chip.dart';
 
@@ -22,11 +23,11 @@ class TranscriptDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transcript detail'),
+        title: const Text('\uB179\uC74C \uC0C1\uC138'),
       ),
       body: item == null
           ? const Center(
-              child: Text('Choose or create a recording first.'),
+              child: Text('\uBA3C\uC800 \uB179\uC74C\uC744 \uC120\uD0DD\uD558\uC138\uC694.'),
             )
           : ListView(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
@@ -60,8 +61,8 @@ class TranscriptDetailScreen extends StatelessWidget {
                             onPressed: () async {
                               final String? updated = await _openEditDialog(
                                 context,
-                                title: 'Edit transcript title',
-                                label: 'Transcript title',
+                                title: '\uB179\uC74C \uC81C\uBAA9 \uC218\uC815',
+                                label: '\uB179\uC74C \uC81C\uBAA9',
                                 initialText: item.title,
                                 maxLines: 2,
                               );
@@ -73,14 +74,14 @@ class TranscriptDetailScreen extends StatelessWidget {
                               }
                             },
                             icon: const Icon(Icons.title),
-                            label: const Text('Edit title'),
+                            label: const Text('\uC81C\uBAA9 \uC218\uC815'),
                           ),
                           OutlinedButton.icon(
                             onPressed: () async {
                               final String? updated = await _openEditDialog(
                                 context,
-                                title: 'Edit summary',
-                                label: 'Transcript summary',
+                                title: '\uC694\uC57D \uC218\uC815',
+                                label: '\uC694\uC57D',
                                 initialText: item.summary ?? '',
                                 maxLines: 5,
                               );
@@ -92,7 +93,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                               }
                             },
                             icon: const Icon(Icons.notes_outlined),
-                            label: const Text('Edit summary'),
+                            label: const Text('\uC694\uC57D \uC218\uC815'),
                           ),
                           OutlinedButton.icon(
                             onPressed: () async {
@@ -105,31 +106,31 @@ class TranscriptDetailScreen extends StatelessWidget {
                               }
                             },
                             icon: const Icon(Icons.delete_outline),
-                            label: const Text('Delete'),
+                            label: const Text('\uC0AD\uC81C'),
                           ),
                           FilledButton.icon(
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(text: _buildMarkdownPreview(item, recording)));
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Transcript markdown copied to clipboard.')),
+                                  const SnackBar(content: Text('\uB179\uC74C Markdown\uC774 \uBCF5\uC0AC\uB428.')),
                                 );
                               }
                             },
                             icon: const Icon(Icons.copy),
-                            label: const Text('Copy Markdown'),
+                            label: const Text('Markdown \uBCF5\uC0AC'),
                           ),
                           FilledButton.tonalIcon(
                             onPressed: () async {
                               final String? path = await controller.exportTranscript(item.id);
                               if (context.mounted && path != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Exported to $path')),
+                                  SnackBar(content: Text('\uB0B4\uBCF4\uB0B4\uAE30 \uC644\uB8CC: $path')),
                                 );
                               }
                             },
                             icon: const Icon(Icons.download_outlined),
-                            label: const Text('Export Markdown'),
+                            label: const Text('Markdown \uB0B4\uBCF4\uB0B4\uAE30'),
                           ),
                         ],
                       ),
@@ -144,7 +145,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             const Text(
-                              'Transcript summary',
+                              '\uB179\uC74C \uC694\uC57D',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
@@ -153,7 +154,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                             const SizedBox(height: 10),
                             Text(
                               item.summary ??
-                                  'This transcript is a draft created from the recording until the STT engine is connected.',
+                                  '\uC774 \uB179\uC74C\uC740 STT \uC5D4\uC9C4\uC774 \uC5F0\uACB0\uB418\uAE30 \uC804\uC5D0 \uB9CC\uB4E4\uC5B4\uC9C4 \uCD08\uC548\uC785\uB2C8\uB2E4.',
                             ),
                           ],
                         ),
@@ -170,8 +171,8 @@ class TranscriptDetailScreen extends StatelessWidget {
                       onEdit: () async {
                         final String? updated = await _openEditDialog(
                           context,
-                          title: 'Edit segment',
-                          label: 'Segment text',
+                          title: '\uAD6C\uAC04 \uC218\uC815',
+                          label: '\uAD6C\uAC04 \uB0B4\uC6A9',
                           initialText: segment.text,
                           maxLines: 6,
                         );
@@ -188,10 +189,12 @@ class TranscriptDetailScreen extends StatelessWidget {
                 }),
                 const SizedBox(height: 12),
                 _InfoCard(
-                  title: 'Stored file',
-                  body: recording?.filePath ?? 'No local recording file found.',
+                  title: '\uC800\uC7A5\uB41C \uD30C\uC77C',
+                  body: recording?.filePath ?? '\uB85C\uCEEC \uB179\uC74C \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.',
                   tone: AppColors.primary,
                 ),
+                const SizedBox(height: 12),
+                AudioPlayerCard(filePath: recording?.filePath),
               ],
             ),
     );
@@ -221,11 +224,11 @@ class TranscriptDetailScreen extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: const Text('\uCDE8\uC18C'),
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(controller.text),
-              child: const Text('Save'),
+              child: const Text('\uC800\uC7A5'),
             ),
           ],
         );
@@ -238,16 +241,16 @@ class TranscriptDetailScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text('Delete transcript'),
-          content: const Text('This transcript will be removed from the local device.'),
+          title: const Text('\uB179\uC74C \uC0AD\uC81C'),
+          content: const Text('\uC774 \uB179\uC74C\uC740 \uAE30\uAE30\uC5D0\uC11C \uC0AD\uC81C\uB429\uB2C8\uB2E4.'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
+              child: const Text('\uCDE8\uC18C'),
             ),
             FilledButton.tonal(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Delete'),
+              child: const Text('\uC0AD\uC81C'),
             ),
           ],
         );
@@ -274,12 +277,12 @@ class TranscriptDetailScreen extends StatelessWidget {
     if ((transcript.summary ?? '').trim().isNotEmpty) {
       buffer
         ..writeln()
-        ..writeln('## Summary')
+        ..writeln('## \uC694\uC57D')
         ..writeln(transcript.summary!.trim());
     }
 
     buffer.writeln();
-    buffer.writeln('## Transcript');
+    buffer.writeln('## \uB179\uC74C \uB0B4\uC6A9');
     for (final TranscriptSegment segment in transcript.segments) {
       buffer
         ..writeln()
@@ -314,7 +317,7 @@ class _SegmentCard extends StatelessWidget {
               TextButton.icon(
                 onPressed: onEdit,
                 icon: const Icon(Icons.edit_outlined),
-                label: const Text('Edit'),
+                label: const Text('\uC218\uC815'),
               ),
             ],
           ),

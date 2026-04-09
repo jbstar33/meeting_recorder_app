@@ -17,15 +17,15 @@ class TranscriptListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transcripts'),
+        title: const Text('\uB179\uC74C'),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         children: <Widget>[
-          Text('All transcripts', style: theme.textTheme.headlineMedium),
+          Text('\uBAA8\uB4E0 \uB179\uC74C', style: theme.textTheme.headlineMedium),
           const SizedBox(height: 8),
           Text(
-            'Saved recordings and editable transcript drafts live here.',
+            '\uC800\uC7A5\uB41C \uB179\uC74C\uACFC \uC218\uC815 \uAC00\uB2A5\uD55C \uB179\uC74C \uCD08\uC548\uC774 \uC5EC\uAE30\uC5D0 \uB9F5\uB2C8\uB2E4.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 18),
@@ -35,12 +35,12 @@ class TranscriptListScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'No transcripts yet',
+                    '\uC544\uC9C1 \uB179\uC74C\uC774 \uC5C6\uC2B5\uB2C8\uB2E4',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Stop a recording first. A draft transcript will be created automatically and can be edited here.',
+                    '\uBA3C\uC800 \uB179\uC74C\uC744 \uC885\uB8CC\uD574 \uC8FC\uC138\uC694. \uC790\uB3D9\uC73C\uB85C \uB179\uC74C \uCD08\uC548\uC774 \uB9CC\uB4E4\uC5B4\uC9D1\uB2C8\uB2E4.',
                   ),
                 ],
               ),

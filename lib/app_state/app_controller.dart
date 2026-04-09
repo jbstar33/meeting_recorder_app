@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 import '../data/models/recording_item.dart';
 import '../data/models/transcript_item.dart';
 import '../data/models/session_state.dart';
-import '../services/recording/audio_recorder_service.dart';
 import '../services/export/transcript_export_service.dart';
+import '../services/recording/audio_recorder_service.dart';
 import '../services/security/pin_service.dart';
 import '../services/storage/recordings_store.dart';
 import '../services/storage/transcripts_store.dart';
@@ -54,12 +54,12 @@ class AppController extends ChangeNotifier {
   Future<bool> createPin(String first, String second) async {
     authError = null;
     if (first.length != 4 || second.length != 4) {
-      authError = 'PIN must be exactly 4 digits.';
+      authError = '\uBE44\uBC00\uBC88\uD638\uB294 4\uC790\uB9AC\uC5EC\uC57C \uD569\uB2C8\uB2E4.';
       notifyListeners();
       return false;
     }
     if (first != second) {
-      authError = 'The PIN entries do not match.';
+      authError = '\uBE44\uBC00\uBC88\uD638\uAC00 \uC11C\uB85C \uB2E4\uB985\uB2C8\uB2E4.';
       notifyListeners();
       return false;
     }
@@ -73,7 +73,7 @@ class AppController extends ChangeNotifier {
     authError = null;
     final bool isValid = await _pinService.verifyPin(pin);
     if (!isValid) {
-      authError = 'Incorrect PIN. Please try again.';
+      authError = '\uBE44\uBC00\uBC88\uD638\uAC00 \uD2C0\uB838\uC2B5\uB2C8\uB2E4. \uB2E4\uC2DC \uC785\uB825\uD574 \uC8FC\uC138\uC694.';
       notifyListeners();
       return false;
     }
@@ -155,7 +155,7 @@ class AppController extends ChangeNotifier {
     recordingError = null;
     final bool hasPermission = await _recorderService.requestPermission();
     if (!hasPermission) {
-      recordingError = 'Microphone permission is required before recording.';
+      recordingError = '\uB179\uC74C\uC744 \uC2DC\uC791\uD558\uB824\uBA74 \uB9C8\uC774\uD06C \uC811\uADFC \uAD8C\uD55C\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.';
       notifyListeners();
       return false;
     }
@@ -208,12 +208,14 @@ class AppController extends ChangeNotifier {
     final DateTime createdAt = DateTime.now();
     final RecordingItem item = RecordingItem(
       id: _newId(),
-      title: 'Meeting ${createdAt.month}/${createdAt.day} ${createdAt.hour}:${createdAt.minute.toString().padLeft(2, '0')}',
+      title:
+          '\uB179\uC74C ${createdAt.month.toString().padLeft(2, '0')}/${createdAt.day.toString().padLeft(2, '0')} ${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}',
       filePath: finalPath ?? activeRecordingPath!,
       createdAt: createdAt,
       durationSeconds: recordingSeconds,
-      status: 'Saved',
-      summary: 'Recording captured on-device. Transcription and analysis are next.',
+      status: '\uC800\uC7A5\uB428',
+      summary:
+          '\uAE30\uAE30\uC5D0 \uB179\uC74C\uC774 \uC800\uC7A5\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC804\uC0AC\uC640 \uBD84\uC11D\uC740 \uB2E4\uC74C \uB2E8\uACC4\uC5D0\uC11C \uCC98\uB9AC\uD569\uB2C8\uB2E4.',
     );
     recordings = <RecordingItem>[item, ...recordings];
     selectedRecording = item;
@@ -283,21 +285,24 @@ class AppController extends ChangeNotifier {
         speaker: 'SPEAKER_00',
         startSeconds: 0,
         endSeconds: min(32, item.durationSeconds),
-        text: 'Draft transcript for ${item.title}. This placeholder will be replaced by the STT engine.',
+        text:
+            '\uC774 \uAD6C\uAC04\uC740 \uC804\uC0AC \uBAA8\uD615\uC758 \uC608\uC2DC \uBB38\uC7A5\uC785\uB2C8\uB2E4. \uC2E4\uC81C STT \uC5D4\uC9C4\uC774 \uC5F0\uACB0\uB418\uBA74 \uC774 \uBB38\uC7A5\uC740 \uD55C\uAD6D\uC5B4 \uB300\uD654 \uB0B4\uC6A9\uC73C\uB85C \uAD50\uCCB4\uB429\uB2C8\uB2E4.',
       ),
       TranscriptSegment(
         id: '${item.id}-s2',
         speaker: 'SPEAKER_01',
         startSeconds: 33,
         endSeconds: min(68, item.durationSeconds),
-        text: 'The current MVP already stores audio locally and keeps the transcript editable.',
+        text:
+            '\uC774\uC81C MVP \uB2E8\uACC4\uC5D0\uC11C\uB294 \uB179\uC74C, \uC804\uC0AC, \uC800\uC7A5, \uC218\uC815 \uD750\uB984\uC744 \uBA3C\uC800 \uC548\uC815\uC801\uC73C\uB85C \uB3CC\uB9AC\uB294 \uAC83\uC774 \uC911\uC694\uD569\uB2C8\uB2E4.',
       ),
       TranscriptSegment(
         id: '${item.id}-s3',
         speaker: 'SPEAKER_02',
         startSeconds: 69,
         endSeconds: item.durationSeconds,
-        text: 'Search, filters, and edits will keep working on top of this transcript draft.',
+        text:
+            '\uAC80\uC0C9, \uACF5\uC720, \uB0B4\uBCF4\uB0B4\uAE30 \uAE30\uB2A5\uC740 \uC804\uC0AC \uAE30\uBCF8\uC744 \uAC16\uCD98 \uB4A4 \uACC4\uC18D \uD655\uC7A5\uD569\uB2C8\uB2E4.',
       ),
     ];
 
@@ -318,7 +323,7 @@ class AppController extends ChangeNotifier {
     final String day = item.createdAt.day.toString().padLeft(2, '0');
     final String hour = item.createdAt.hour.toString().padLeft(2, '0');
     final String minute = item.createdAt.minute.toString().padLeft(2, '0');
-    return 'Transcript $month/$day $hour:$minute';
+    return '\uB179\uC74C $month/$day $hour:$minute';
   }
 
   RecordingItem? _recordingForId(String id) {

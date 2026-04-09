@@ -60,10 +60,13 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Create a secure PIN', style: theme.textTheme.headlineMedium),
+                  Text(
+                    '\uC548\uC804\uD55C PIN\uC744 \uB9CC\uB4E4\uC5B4 \uC8FC\uC138\uC694',
+                    style: theme.textTheme.headlineMedium,
+                  ),
                   const SizedBox(height: 12),
                   Text(
-                    'Your recordings stay behind a 4-digit PIN before the app opens.',
+                    '\uC571\uC744 \uC5F4\uAE30 \uC804\uC5D0 4\uC790\uB9AC PIN\uC73C\uB85C \uB179\uC74C\uACFC \uC804\uC0AC\uB97C \uBCF4\uD638\uD569\uB2C8\uB2E4.',
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 24),
@@ -73,7 +76,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                     obscureText: true,
                     maxLength: 4,
                     decoration: const InputDecoration(
-                      labelText: 'New PIN',
+                      labelText: '\uC0C8 PIN',
                       counterText: '',
                     ),
                   ),
@@ -84,7 +87,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                     obscureText: true,
                     maxLength: 4,
                     decoration: const InputDecoration(
-                      labelText: 'Confirm PIN',
+                      labelText: 'PIN \uD655\uC778',
                       counterText: '',
                     ),
                   ),
@@ -105,7 +108,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                         _confirmController.text.trim(),
                       );
                     },
-                    child: const Text('Save PIN'),
+                    child: const Text('PIN \uC800\uC7A5'),
                   ),
                 ],
               ),
@@ -149,10 +152,13 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Unlock Meeting Recorder App', style: theme.textTheme.headlineMedium),
+                  Text(
+                    'Meeting Recorder App \uC7A0\uAE08 \uD574\uC81C',
+                    style: theme.textTheme.headlineMedium,
+                  ),
                   const SizedBox(height: 12),
                   Text(
-                    'Enter your 4-digit PIN to access recordings and transcripts.',
+                    '4\uC790\uB9AC PIN\uC744 \uC785\uB825\uD558\uBA74 \uB179\uC74C\uACFC \uC804\uC0AC\uB97C \uBCFC \uC218 \uC788\uC2B5\uB2C8\uB2E4.',
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 24),
@@ -179,7 +185,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                   const SizedBox(height: 18),
                   FilledButton(
                     onPressed: () => controller.unlock(_pinController.text.trim()),
-                    child: const Text('Unlock'),
+                    child: const Text('\uC7A0\uAE08 \uD574\uC81C'),
                   ),
                 ],
               ),

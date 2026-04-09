@@ -18,7 +18,6 @@ Future<void> main() async {
     exportService: TranscriptExportService(),
     recorderService: AudioRecorderService(),
   );
-  await controller.bootstrap();
 
   runApp(VoiceNoteApp(controller: controller));
 }
