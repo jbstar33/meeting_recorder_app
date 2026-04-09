@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "voicenote_ai_prototype" "\0"
+            VALUE "CompanyName", "ONESTORE" "\0"
+            VALUE "FileDescription", "meeting_recorder_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "voicenote_ai_prototype" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "voicenote_ai_prototype.exe" "\0"
-            VALUE "ProductName", "voicenote_ai_prototype" "\0"
+            VALUE "InternalName", "meeting_recorder_app" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 ONESTORE. All rights reserved." "\0"
+            VALUE "OriginalFilename", "meeting_recorder_app.exe" "\0"
+            VALUE "ProductName", "meeting_recorder_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

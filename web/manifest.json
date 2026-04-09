@@ -1,6 +1,6 @@
 {
-    "name": "voicenote_ai_prototype",
-    "short_name": "voicenote_ai_prototype",
+    "name": "meeting_recorder_app",
+    "short_name": "meeting_recorder_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

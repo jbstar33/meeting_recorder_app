@@ -69,6 +69,6 @@ const List<TranscriptSegmentPreview> mockSegments = <TranscriptSegmentPreview>[
   TranscriptSegmentPreview(
     speaker: 'SPEAKER_02',
     timeLabel: '01:09 - 01:41',
-    text: 'So for the prototype, let us first verify that the home, recording, transcript, analysis, and settings screens connect naturally.',
+    text: 'First verify that the home, recording, transcript, analysis, and settings screens connect naturally.',
   ),
 ];

@@ -1,21 +1,17 @@
-# VoiceNote AI Prototype
+# Meeting Recorder App
 
-This repository now contains a Flutter UI-only prototype for the meeting recorder app.
+This repository contains a Flutter meeting recorder app focused on local capture, transcript editing, search, and export.
 
 ## Included
 
 - home dashboard
 - recording screen
-- transcript detail screen
-- analysis summary cards
+- transcript list and detail screens
+- transcript search
+- markdown export
 - settings screen
-- soft-blue visual system
 
-## Current Limitation
-
-Flutter is not installed in the current environment, so this prototype was created as source files only and was not executed here.
-
-## Run Later
+## Run
 
 After installing Flutter:
 

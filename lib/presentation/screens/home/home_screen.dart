@@ -285,7 +285,7 @@ class _HeroSummary extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'This MVP now includes a real PIN gate and actual local audio capture on top of the prototype UI.',
+            'This MVP now includes a real PIN gate and actual local audio capture on top of the current UI.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.82),
             ),

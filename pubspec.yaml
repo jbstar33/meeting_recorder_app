@@ -1,5 +1,5 @@
 name: voicenote_ai
-description: Privacy-first meeting recorder MVP built from the VoiceNote AI prototype.
+description: Privacy-first meeting recorder MVP for local-first meeting capture, transcript editing, and export.
 publish_to: "none"
 version: 0.1.0+1
 
