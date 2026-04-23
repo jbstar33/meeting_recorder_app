@@ -1,26 +1,36 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PinService {
-  PinService([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+  PinService([SharedPreferences? prefs]) : _prefs = prefs;
 
   static const String _pinHashKey = 'pin_hash';
-  final FlutterSecureStorage _storage;
+  final SharedPreferences? _prefs;
+
+  Future<SharedPreferences> _instance() async {
+    final SharedPreferences? prefs = _prefs;
+    if (prefs != null) {
+      return prefs;
+    }
+    return SharedPreferences.getInstance();
+  }
 
   Future<bool> hasPin() async {
-    final String? value = await _storage.read(key: _pinHashKey);
+    final SharedPreferences prefs = await _instance();
+    final String? value = prefs.getString(_pinHashKey);
     return value != null && value.isNotEmpty;
   }
 
   Future<void> savePin(String pin) async {
-    await _storage.write(key: _pinHashKey, value: _hashPin(pin));
+    final SharedPreferences prefs = await _instance();
+    await prefs.setString(_pinHashKey, _hashPin(pin));
   }
 
   Future<bool> verifyPin(String pin) async {
-    final String? currentHash = await _storage.read(key: _pinHashKey);
+    final SharedPreferences prefs = await _instance();
+    final String? currentHash = prefs.getString(_pinHashKey);
     if (currentHash == null || currentHash.isEmpty) {
       return false;
     }

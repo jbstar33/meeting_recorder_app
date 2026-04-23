@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/recording_item.dart';
 
 class RecordingsStore {
-  static const String _recordingsKey = 'recordings_v1';
+  static const String _recordingsKey = 'recordings_v2';
 
   Future<List<RecordingItem>> loadRecordings() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

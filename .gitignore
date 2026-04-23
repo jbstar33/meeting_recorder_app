@@ -48,3 +48,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Project-local generated/debug artifacts
+test/screenshot_*.png
+third_party/
+android/app/src/main/assets/whisper/models/*.bin

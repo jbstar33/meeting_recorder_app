@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/transcript_item.dart';
 
 class TranscriptsStore {
-  static const String _transcriptsKey = 'transcripts_v1';
+  static const String _transcriptsKey = 'transcripts_v2';
 
   Future<List<TranscriptItem>> loadTranscripts() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

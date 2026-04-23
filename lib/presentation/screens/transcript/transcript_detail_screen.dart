@@ -20,6 +20,24 @@ class TranscriptDetailScreen extends StatelessWidget {
     final RecordingItem? recording =
         item == null ? controller.selectedRecording : controller.recordingForTranscript(item.id);
     final ThemeData theme = Theme.of(context);
+    final ButtonStyle compactOutlinedButtonStyle = OutlinedButton.styleFrom(
+      visualDensity: VisualDensity.compact,
+      minimumSize: const Size(0, 36),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    );
+    final ButtonStyle compactFilledButtonStyle = FilledButton.styleFrom(
+      visualDensity: VisualDensity.compact,
+      minimumSize: const Size(0, 36),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    );
+    final ButtonStyle compactTonalButtonStyle = FilledButton.styleFrom(
+      visualDensity: VisualDensity.compact,
+      minimumSize: const Size(0, 36),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -47,17 +65,18 @@ class TranscriptDetailScreen extends StatelessWidget {
                         spacing: 8,
                         runSpacing: 8,
                         children: <Widget>[
-                          SpeakerChip(label: '${item.segments.length} segments', index: 0),
-                          const SpeakerChip(label: 'Editable', index: 1),
-                          const SpeakerChip(label: 'Searchable', index: 2),
+                          SpeakerChip(label: '${item.segments.length}\uAC1C \uAD6C\uAC04', index: 0),
+                          const SpeakerChip(label: '\uC218\uC815 \uAC00\uB2A5', index: 1),
+                          const SpeakerChip(label: '\uAC80\uC0C9 \uAC00\uB2A5', index: 2),
                         ],
                       ),
                       const SizedBox(height: 16),
                       Wrap(
-                        spacing: 12,
-                        runSpacing: 12,
+                        spacing: 8,
+                        runSpacing: 8,
                         children: <Widget>[
                           OutlinedButton.icon(
+                            style: compactOutlinedButtonStyle,
                             onPressed: () async {
                               final String? updated = await _openEditDialog(
                                 context,
@@ -77,6 +96,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                             label: const Text('\uC81C\uBAA9 \uC218\uC815'),
                           ),
                           OutlinedButton.icon(
+                            style: compactOutlinedButtonStyle,
                             onPressed: () async {
                               final String? updated = await _openEditDialog(
                                 context,
@@ -96,6 +116,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                             label: const Text('\uC694\uC57D \uC218\uC815'),
                           ),
                           OutlinedButton.icon(
+                            style: compactOutlinedButtonStyle,
                             onPressed: () async {
                               final bool confirmed = await _confirmDelete(context);
                               if (confirmed) {
@@ -109,6 +130,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                             label: const Text('\uC0AD\uC81C'),
                           ),
                           FilledButton.icon(
+                            style: compactFilledButtonStyle,
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(text: _buildMarkdownPreview(item, recording)));
                               if (context.mounted) {
@@ -121,6 +143,7 @@ class TranscriptDetailScreen extends StatelessWidget {
                             label: const Text('Markdown \uBCF5\uC0AC'),
                           ),
                           FilledButton.tonalIcon(
+                            style: compactTonalButtonStyle,
                             onPressed: () async {
                               final String? path = await controller.exportTranscript(item.id);
                               if (context.mounted && path != null) {
@@ -132,8 +155,20 @@ class TranscriptDetailScreen extends StatelessWidget {
                             icon: const Icon(Icons.download_outlined),
                             label: const Text('Markdown \uB0B4\uBCF4\uB0B4\uAE30'),
                           ),
-                        ],
-                      ),
+                          OutlinedButton.icon(
+                            style: compactOutlinedButtonStyle,
+                            onPressed: controller.isTranscribing
+                                ? null
+                                : () => controller.retryTranscription(item.id),
+                            icon: const Icon(Icons.sync_rounded),
+                            label: Text(
+                              controller.isTranscribing
+                                  ? '\uBCC0\uD658 \uC911...'
+                                  : '\uBCC0\uD658 \uB2E4\uC2DC \uC2DC\uB3C4',
+                            ),
+                            ),
+                          ],
+                        ),
                       const SizedBox(height: 20),
                       Container(
                         padding: const EdgeInsets.all(18),
@@ -159,6 +194,8 @@ class TranscriptDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      AudioPlayerCard(filePath: recording?.filePath),
                     ],
                   ),
                 ),
@@ -193,8 +230,15 @@ class TranscriptDetailScreen extends StatelessWidget {
                   body: recording?.filePath ?? '\uB85C\uCEEC \uB179\uC74C \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.',
                   tone: AppColors.primary,
                 ),
-                const SizedBox(height: 12),
-                AudioPlayerCard(filePath: recording?.filePath),
+                if (controller.transcriptionError != null) ...<Widget>[
+                  const SizedBox(height: 10),
+                  Text(
+                    controller.transcriptionError!,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.error,
+                    ),
+                  ),
+                ],
               ],
             ),
     );
@@ -286,7 +330,7 @@ class TranscriptDetailScreen extends StatelessWidget {
     for (final TranscriptSegment segment in transcript.segments) {
       buffer
         ..writeln()
-        ..writeln('### ${segment.speaker} · ${formatRange(segment.startSeconds, segment.endSeconds)}')
+        ..writeln('### ${segment.speaker} - ${formatRange(segment.startSeconds, segment.endSeconds)}')
         ..writeln(segment.text.trim());
     }
     return buffer.toString();

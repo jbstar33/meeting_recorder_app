@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../app_state/app_scope.dart';
 import '../../../core/theme/app_colors.dart';
@@ -21,6 +22,15 @@ class RecordingScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         children: <Widget>[
+          if (kIsWeb) ...<Widget>[
+            GlassCard(
+              child: Text(
+                '\uC6F9 \uBC84\uC804\uC740 UI \uD655\uC778 \uC6A9\uB3C4\uB85C\uB9CC \uC81C\uACF5\uB418\uBA70, \uC2E4\uC81C \uB179\uC74C\uC740 \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.',
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -72,6 +82,13 @@ class RecordingScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               controller.recordingError!,
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
+            ),
+          ],
+          if (controller.transcriptionError != null) ...<Widget>[
+            const SizedBox(height: 12),
+            Text(
+              controller.transcriptionError!,
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
             ),
           ],
@@ -143,7 +160,7 @@ class RecordingScreen extends StatelessWidget {
                 if (controller.recordingPhase != RecordingPhase.idle) ...<Widget>[
                   const SizedBox(height: 10),
                   Text(
-                    'Elapsed: ${formatDuration(controller.recordingSeconds)}',
+                    '\uB179\uD654 \uC2DC\uAC04: ${formatDuration(controller.recordingSeconds)}',
                     style: theme.textTheme.bodySmall,
                   ),
                 ],

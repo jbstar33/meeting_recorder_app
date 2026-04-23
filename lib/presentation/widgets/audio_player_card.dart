@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
@@ -23,10 +24,14 @@ class AudioPlayerCard extends StatefulWidget {
 class _AudioPlayerCardState extends State<AudioPlayerCard> {
   final AudioPlayer _player = AudioPlayer();
   StreamSubscription<Duration>? _positionSubscription;
-  StreamSubscription<PlayerState>? _playerStateSubscription;
+  StreamSubscription<Duration>? _durationSubscription;
+  StreamSubscription<PlayerState>? _stateSubscription;
+
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   bool _isLoading = true;
+  bool _sourceReady = false;
+  bool _isPlaying = false;
   String? _error;
 
   @override
@@ -46,62 +51,114 @@ class _AudioPlayerCardState extends State<AudioPlayerCard> {
 
   Future<void> _preparePlayer() async {
     final String? filePath = widget.filePath;
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+      _sourceReady = false;
+      _isPlaying = false;
+      _error = null;
+      _position = Duration.zero;
+      _duration = Duration.zero;
+    });
+
     if (filePath == null || filePath.isEmpty) {
       setState(() {
         _isLoading = false;
-        _error = '\uC7AC\uC0DD\uD560 \uB179\uC74C \uD30C\uC77C\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.';
+        _error = '재생할 녹음 파일이 없습니다.';
       });
       return;
     }
 
-    final File file = File(filePath);
-    if (!file.existsSync()) {
-      setState(() {
-        _isLoading = false;
-        _error = '\uB85C\uCEEC \uB179\uC74C \uD30C\uC77C\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.';
-      });
-      return;
-    }
-
-    try {
-      _position = Duration.zero;
-      _duration = Duration.zero;
-      await _player.setFilePath(filePath);
-      _duration = _player.duration ?? Duration.zero;
-      _positionSubscription = _player.positionStream.listen((Duration position) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {
-          _position = position;
-        });
-      });
-      _playerStateSubscription = _player.playerStateStream.listen((PlayerState state) {
-        if (!mounted) {
-          return;
-        }
-        if (state.processingState == ProcessingState.completed) {
-          unawaited(_player.seek(Duration.zero));
-          unawaited(_player.pause());
-        }
-        setState(() {});
-      });
-    } catch (error) {
-      _error = error.toString();
-    } finally {
-      if (mounted) {
+    if (!_isWebPlayableUrl(filePath)) {
+      final File file = File(filePath);
+      if (!file.existsSync()) {
         setState(() {
           _isLoading = false;
+          _error = '로컬 녹음 파일을 찾을 수 없습니다.';
         });
+        return;
+      }
+      if (file.lengthSync() <= 44) {
+        setState(() {
+          _isLoading = false;
+          _error = '녹음 파일이 너무 작아 재생할 수 없습니다.';
+        });
+        return;
       }
     }
+
+    _positionSubscription = _player.onPositionChanged.listen((Duration position) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _position = position;
+      });
+    });
+
+    _durationSubscription = _player.onDurationChanged.listen((Duration duration) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _duration = duration;
+      });
+    });
+
+    _stateSubscription = _player.onPlayerStateChanged.listen((PlayerState state) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isPlaying = state == PlayerState.playing;
+      });
+    });
+
+    _player.onPlayerComplete.listen((_) async {
+      await _player.seek(Duration.zero);
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isPlaying = false;
+        _position = Duration.zero;
+      });
+    });
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _ensureSourceLoaded() async {
+    if (_sourceReady) {
+      return;
+    }
+
+    final String? filePath = widget.filePath;
+    if (filePath == null || filePath.isEmpty) {
+      throw StateError('재생할 녹음 파일이 없습니다.');
+    }
+
+    if (_isWebPlayableUrl(filePath)) {
+      await _player.setSourceUrl(filePath).timeout(const Duration(seconds: 5));
+      _sourceReady = true;
+      return;
+    }
+
+    await _player.setSourceDeviceFile(filePath).timeout(const Duration(seconds: 5));
+    _sourceReady = true;
   }
 
   void _disposeSubscriptions() {
     unawaited(_positionSubscription?.cancel());
-    unawaited(_playerStateSubscription?.cancel());
+    unawaited(_durationSubscription?.cancel());
+    unawaited(_stateSubscription?.cancel());
     _positionSubscription = null;
-    _playerStateSubscription = null;
+    _durationSubscription = null;
+    _stateSubscription = null;
   }
 
   @override
@@ -122,7 +179,7 @@ class _AudioPlayerCardState extends State<AudioPlayerCard> {
               Icon(Icons.play_circle_outline, color: AppColors.primary),
               const SizedBox(width: 10),
               Text(
-                '\uB179\uC74C \uB4E3\uAE30',
+                '녹음 듣기',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -131,7 +188,12 @@ class _AudioPlayerCardState extends State<AudioPlayerCard> {
           ),
           const SizedBox(height: 14),
           if (_isLoading)
-            const Center(child: Padding(padding: EdgeInsets.all(12), child: CircularProgressIndicator()))
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(12),
+                child: CircularProgressIndicator(),
+              ),
+            )
           else if (_error != null)
             Text(_error!)
           else
@@ -161,42 +223,61 @@ class _AudioPlayerCardState extends State<AudioPlayerCard> {
                   children: <Widget>[
                     FilledButton.icon(
                       onPressed: () async {
-                        if (_player.playing) {
-                          await _player.pause();
-                        } else {
-                          await _player.play();
-                        }
-                        if (mounted) {
-                          setState(() {});
+                        try {
+                          await _ensureSourceLoaded();
+                          if (_isPlaying) {
+                            await _player.pause();
+                          } else {
+                            await _player.resume().timeout(const Duration(seconds: 5));
+                          }
+                          if (mounted) {
+                            setState(() {
+                              _error = null;
+                            });
+                          }
+                        } on TimeoutException {
+                          if (mounted) {
+                            setState(() {
+                              _error = '재생 준비 시간이 초과되었습니다. 파일을 다시 녹음해 주세요.';
+                            });
+                          }
+                        } catch (error) {
+                          if (mounted) {
+                            setState(() {
+                              _error = '재생에 실패했습니다: $error';
+                            });
+                          }
                         }
                       },
-                      icon: Icon(_player.playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
-                      label: Text(_player.playing ? '\uC77C\uC2DC\uC815\uC9C0' : '\uC7AC\uC0DD'),
+                      icon: Icon(_isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                      label: Text(_isPlaying ? '일시정지' : '재생'),
                     ),
                     OutlinedButton.icon(
                       onPressed: () async {
                         await _player.stop();
-                        await _player.seek(Duration.zero);
                         if (mounted) {
                           setState(() {
                             _position = Duration.zero;
+                            _isPlaying = false;
                           });
                         }
                       },
                       icon: const Icon(Icons.stop_rounded),
-                      label: const Text('\uC815\uC9C0'),
+                      label: const Text('정지'),
                     ),
                   ],
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  widget.filePath ?? '',
-                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
         ],
       ),
     );
+  }
+
+  bool _isWebPlayableUrl(String path) {
+    if (!kIsWeb) {
+      return false;
+    }
+    return path.startsWith('data:') || path.startsWith('blob:') || path.startsWith('http');
   }
 }

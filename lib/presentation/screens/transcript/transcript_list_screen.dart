@@ -23,11 +23,6 @@ class TranscriptListScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         children: <Widget>[
           Text('\uBAA8\uB4E0 \uB179\uC74C', style: theme.textTheme.headlineMedium),
-          const SizedBox(height: 8),
-          Text(
-            '\uC800\uC7A5\uB41C \uB179\uC74C\uACFC \uC218\uC815 \uAC00\uB2A5\uD55C \uB179\uC74C \uCD08\uC548\uC774 \uC5EC\uAE30\uC5D0 \uB9F5\uB2C8\uB2E4.',
-            style: theme.textTheme.bodyMedium,
-          ),
           const SizedBox(height: 18),
           if (controller.transcripts.isEmpty)
             const GlassCard(
@@ -46,6 +41,7 @@ class TranscriptListScreen extends StatelessWidget {
               ),
             ),
           ...controller.transcripts.map((TranscriptItem transcript) {
+            final recording = controller.recordingForTranscript(transcript.id);
             final String firstLine = transcript.segments.isNotEmpty ? transcript.segments.first.text : 'No text yet';
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -72,13 +68,13 @@ class TranscriptListScreen extends StatelessWidget {
                                 Text(transcript.title, style: theme.textTheme.titleLarge),
                                 const SizedBox(height: 6),
                                 Text(
-                                  '${formatDateTime(transcript.updatedAt)} - ${transcript.segments.length} segments',
+                                  '${formatDateTime(transcript.updatedAt)} - ${transcript.segments.length}\uAC1C \uAD6C\uAC04',
                                   style: theme.textTheme.bodySmall,
                                 ),
                               ],
                             ),
                           ),
-                          const SpeakerChip(label: 'Editable', index: 0),
+                          SpeakerChip(label: recording?.status ?? '\uC800\uC7A5\uB428', index: 0),
                         ],
                       ),
                       const SizedBox(height: 16),

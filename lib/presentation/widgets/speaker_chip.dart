@@ -23,12 +23,17 @@ class SpeakerChip extends StatelessWidget {
         color: color.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontWeight: FontWeight.w700,
-          fontSize: 12,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 132),
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.w700,
+            fontSize: 12,
+          ),
         ),
       ),
     );

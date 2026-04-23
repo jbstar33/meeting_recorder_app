@@ -4,6 +4,7 @@ import '../../../app_state/app_scope.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/recording_item.dart';
+import '../../widgets/audio_player_card.dart';
 import '../../widgets/glass_card.dart';
 import '../../widgets/speaker_chip.dart';
 import '../../widgets/waveform_bar.dart';
@@ -191,7 +192,7 @@ class _DashboardTab extends StatelessWidget {
                                       Text(item.title, style: theme.textTheme.titleLarge),
                                       const SizedBox(height: 6),
                                       Text(
-                                        '${formatDateTime(item.createdAt)}  ·  ${formatDuration(item.durationSeconds)}',
+                                        '${formatDateTime(item.createdAt)} - ${formatDuration(item.durationSeconds)}',
                                         style: theme.textTheme.bodySmall,
                                       ),
                                     ],
@@ -203,12 +204,17 @@ class _DashboardTab extends StatelessWidget {
                                     color: AppColors.success.withValues(alpha: 0.14),
                                     borderRadius: BorderRadius.circular(999),
                                   ),
-                                  child: Text(
-                                    item.status,
-                                    style: const TextStyle(
-                                      color: AppColors.success,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(maxWidth: 120),
+                                    child: Text(
+                                      item.status,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: AppColors.success,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -225,6 +231,29 @@ class _DashboardTab extends StatelessWidget {
                                 SpeakerChip(label: '\uB85C\uCEEC \uD30C\uC77C 1\uAC1C', index: index),
                                 const SizedBox(width: 8),
                                 const SpeakerChip(label: '\uC624\uD504\uB77C\uC778 \uC6B0\uC120', index: 0),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: <Widget>[
+                                TextButton.icon(
+                                  onPressed: () => _openPlaybackSheet(context, item),
+                                  icon: const Icon(Icons.play_circle_outline),
+                                  label: const Text('\uB4E3\uAE30'),
+                                ),
+                                const SizedBox(width: 8),
+                                OutlinedButton.icon(
+                                  onPressed: () {
+                                    controller.selectRecording(item);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) => const TranscriptDetailScreen(),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.open_in_new),
+                                  label: const Text('\uC0C1\uC138'),
+                                ),
                               ],
                             ),
                           ],
@@ -296,6 +325,38 @@ class _HeroSummary extends StatelessWidget {
       ),
     );
   }
+}
+
+void _openPlaybackSheet(BuildContext context, RecordingItem item) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (BuildContext sheetContext) {
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 6, 16, 18),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                item.title,
+                style: Theme.of(sheetContext).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${formatDateTime(item.createdAt)} - ${formatDuration(item.durationSeconds)}',
+                style: Theme.of(sheetContext).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 12),
+              AudioPlayerCard(filePath: item.filePath),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
 
 class _SectionHeader extends StatelessWidget {

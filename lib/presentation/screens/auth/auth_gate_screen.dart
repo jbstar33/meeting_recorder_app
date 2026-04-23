@@ -66,7 +66,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '\uC571\uC744 \uC5F4\uAE30 \uC804\uC5D0 4\uC790\uB9AC PIN\uC73C\uB85C \uB179\uC74C\uACFC \uC804\uC0AC\uB97C \uBCF4\uD638\uD569\uB2C8\uB2E4.',
+                    '\uC571\uC744 \uC5F4\uAE30 \uC804\uC5D0 4\uC790\uB9AC PIN\uC73C\uB85C \uB179\uC74C\uACFC \uC74C\uC131-\uD14D\uC2A4\uD2B8 \uBCC0\uD658\uC744 \uBCF4\uD638\uD569\uB2C8\uB2E4.',
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 24),
@@ -158,7 +158,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '4\uC790\uB9AC PIN\uC744 \uC785\uB825\uD558\uBA74 \uB179\uC74C\uACFC \uC804\uC0AC\uB97C \uBCFC \uC218 \uC788\uC2B5\uB2C8\uB2E4.',
+                    '4\uC790\uB9AC PIN\uC744 \uC785\uB825\uD558\uBA74 \uB179\uC74C\uACFC \uC74C\uC131-\uD14D\uC2A4\uD2B8 \uBCC0\uD658\uC744 \uBCFC \uC218 \uC788\uC2B5\uB2C8\uB2E4.',
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 24),
